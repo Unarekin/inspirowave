@@ -6,9 +6,13 @@
   "directories": {
     "test": "test"
   },
+  "bin": {
+    "inspirowave": "./dist/index.js"
+  },
   "dependencies": {
     "@types/cheerio": "^0.22.13",
     "@types/mocha": "^5.2.7",
+    "cheerio": "^1.0.0-rc.3",
     "graphlib": "^2.1.7",
     "request": "^2.88.0",
     "yargs": "^14.0.0"
@@ -18,7 +22,6 @@
     "@types/node": "^12.7.5",
     "@types/yargs": "^13.0.2",
     "chai": "^4.2.0",
-    "cheerio": "^1.0.0-rc.3",
     "progress": "^2.0.3"
   },
   "scripts": {

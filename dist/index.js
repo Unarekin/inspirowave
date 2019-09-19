@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var retrotext_1 = require("./retrotext");
@@ -14,7 +15,7 @@ var argv = yargs
     .alias("t", "textStyle")
     .string("bcg")
     .alias("b", "bcg")
-    .demandOption("o")
+    // .demandOption("o")
     .argv;
 // If textStyle and/or bcg aren't specified, select a random one.
 var bcg = argv.b;
@@ -23,16 +24,22 @@ if (!argv.b)
 var textStyle = argv.t;
 if (!argv.t)
     textStyle = '' + Math.floor(Math.random() * 4);
-// const outPath: string = path.resolve(argv.o) + (path.extname(argv.o) ? "" : "quote.jpg");
-var outPath = path.resolve(argv.o);
-if (!path.extname(outPath))
-    outPath = path.join(outPath, "quote.jpg");
 var quote = quotegenerator_1.GenerateQuote();
+var outPath = "";
+// If --out is not specified, default to current directory + text of quote as file name
+if (!argv.o)
+    outPath = path.join(path.resolve("./"), quote.join("").replace(/( |\.|\!\?|\,)/g, "") + ".jpg");
+else
+    outPath = path.resolve(argv.o);
+// If out path has no file name, add it.
+if (!path.extname(outPath))
+    outPath = path.join(outPath, quote.join("").replace(/ /g, "") + ".jpg");
 retrotext_1.RetroText(quote[0], quote[1], quote[2], textStyle, bcg)
     .then(function (buffer) {
     return writeFile(outPath, buffer);
 })
     .then(function () {
+    console.log(quote.join(" "));
     console.log("Saved to " + outPath);
 })
     .catch(console.error);

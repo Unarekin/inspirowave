@@ -10,7 +10,7 @@ function shorten(input, length, separator) {
     if (separator === void 0) { separator = ' '; }
     if (input.length <= length)
         return input;
-    return input.substr(0, input.lastIndexOf(separator, length));
+    return input.substr(0, input.lastIndexOf(separator, length)).trim();
 }
 function wordBreak(input) {
     // Split into 3 lines.
@@ -18,9 +18,16 @@ function wordBreak(input) {
     // second up to 12,
     // third up to 25 characters
     // let remaining: string = input;
-    var firstLine = shorten(input, 15);
-    var secondLine = shorten(input.substr(15), 12);
-    return [firstLine, secondLine, input.substr(27)];
+    var firstLine = shorten(input, 14);
+    var remaining = input.substr(firstLine.length).trim();
+    var secondLine = shorten(remaining, 12);
+    remaining = remaining.substr(secondLine.length).trim();
+    var thirdLine = shorten(remaining, 24);
+    var lines = [firstLine, secondLine, thirdLine];
+    // console.log(input);
+    // console.log(lines);
+    // process.exit();
+    return lines;
 }
 function GenerateQuote() {
     var loop = true;
@@ -42,7 +49,6 @@ function GenerateQuote() {
         else
             quote.push(currentNode.text);
     } while (loop);
-    console.log(quote.join(" "));
     return wordBreak(quote.join(" "));
 }
 exports.GenerateQuote = GenerateQuote;
